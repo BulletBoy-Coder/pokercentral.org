@@ -118,6 +118,7 @@
   </div>
 
   <button class="button" onclick="deal()">🎲 Deal</button>
+  <button class="button" onclick="checkCards()">👁️ Check Cards</button>
   <button class="button" onclick="next()">➡️ Next</button>
 
   <div class="showdown" id="result"></div>
@@ -152,6 +153,13 @@
       for (let p in players) {
         document.getElementById(p.toLowerCase() + "Cards").textContent = "🂠🂠";
       }
+    }
+
+    function checkCards() {
+      document.getElementById("youCards").textContent = players.You.join(' ');
+      setTimeout(() => {
+        document.getElementById("youCards").textContent = "🂠🂠";
+      }, 5000);
     }
 
     function next() {
@@ -196,9 +204,4 @@
       for (let p in players) {
         scores[p] = scoreHand(players[p].concat(board));
       }
-      return Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
-    }
-  </script>
-
-</body>
-</html>
+      return[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/mind-rot/poker/tree/b1a5d5f4d6a851b25d85736b315319cca3503340/mainApp%2FcardClass.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/emilka1337/Azino777/tree/cb9529fe21dc6e7f5612221ac497dca7003b4c63/scripts%2Fcasino.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/HillaShx/btcmp/tree/b59374c4ba0467dba5feb64b4045b2e7b7ac33a6/00%20Assignment5_MemoryGame%2Fjs%2Fentities%2Fboard.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/WillPaulRyan/99/tree/cac3cf6057a434f6eaf179db957ee24e6a5cce26/server%2Futils%2Fgame.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")
