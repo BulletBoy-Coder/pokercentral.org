@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poker Central</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      text-align: center;
+    }
 
+    /* Loading screen */
+    #loadingScreen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3em;
+      z-index: 9999;
+      flex-direction: column;
+      animation: fadeOut 1s ease-in-out 3s forwards;
+    }
+
+    #loadingScreen .aces {
+      display: flex;
+      gap: 20px;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    /* Home screen */
+    #homeScreen {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 30px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .home-button {
+      padding: 20px 40px;
+      font-size: 1.5em;
+      background: #222;
+      color: white;
+      border: 2px solid white;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 260px;
+    }
+
+    .home-button:hover {
+      background: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading screen -->
+  <div id="loadingScreen">
+    <div class="aces">
+      <span>🂡</span> <span>🂱</span> <span>🃁</span> <span>🃑</span>
+    </div>
+    <div style="margin-top: 20px;">Loading Poker Central…</div>
+  </div>
+
+  <!-- Home screen -->
+  <div id="homeScreen">
+    <h1>Welcome to Poker Central</h1>
+    <button class="home-button" onclick="launchTrainer()">🎯 Poker Trainer</button>
+    <button class="home-button" onclick="launchGame()">🃏 Poker Game</button>
+    <button class="home-button" onclick="launchOptions()">⚙️ Options</button>
+  </div>
+
+  <script>
+    // Show home screen after loading
+    setTimeout(() => {
+      document.getElementById("loadingScreen").style.display = "none";
+      document.getElementById("homeScreen").style.display = "flex";
+    }, 4000);
+
+    // Navigation functions
+    function launchTrainer() {
+      window.location.href = "pokertrainer.html";
+    }
+
+    function launchGame() {
+      window.location.href = "pokergame.html";
+    }
+
+    function launchOptions() {
+      window.location.href = "options.html";
+    }
+  </script>
+
+</body>
+</html>
