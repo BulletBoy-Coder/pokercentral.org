@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Options</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding-top: 60px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .option-section {
+      margin: 30px 0;
+      font-size: 1.2em;
+    }
+
+    .back-button, .toggle-button {
+      padding: 12px 24px;
+      font-size: 1.2em;
+      background: #222;
+      color: white;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 10px;
+      display: inline-block;
+    }
+
+    .back-button:hover, .toggle-button:hover {
+      background: white;
+      color: black;
+    }
+
+    /* Light mode */
+    body.light-mode {
+      background: #f0f0f0;
+      color: #111;
+    }
+
+    body.light-mode .back-button,
+    body.light-mode .toggle-button {
+      background: #ddd;
+      color: #111;
+      border: 2px solid #111;
+    }
+
+    body.light-mode .back-button:hover,
+    body.light-mode .toggle-button:hover {
+      background: #111;
+      color: white;
+    }
+
+    /* Casino mode */
+    body.casino-mode {
+      background: radial-gradient(circle at center, #006400 0%, #013220 100%);
+      color: gold;
+    }
+
+    body.casino-mode h1 {
+      text-shadow: 0 0 10px gold;
+    }
+
+    body.casino-mode .back-button,
+    body.casino-mode .toggle-button {
+      background: #8B0000;
+      color: gold;
+      border: 2px solid gold;
+      box-shadow: 0 0 10px gold;
+    }
+
+    body.casino-mode .back-button:hover,
+    body.casino-mode .toggle-button:hover {
+      background: gold;
+      color: #8B0000;
+    }
+  </style>
+</head>
+<body class="dark-mode">
+
+  <h1>⚙️ Options</h1>
+
+  <div class="option-section">
+    <p>Customize your poker experience here.</p>
+    <p>Choose your theme below:</p>
+  </div>
+
+  <button class="toggle-button" onclick="toggleMode()">🌓 Toggle Light/Dark Mode</button>
+  <button class="toggle-button" onclick="toggleCasino()">🎰 Toggle Casino Mode</button>
+  <br>
+  <button class="back-button" onclick="goHome()">⬅️ Back to Home</button>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.remove("casino-mode");
+      document.body.classList.toggle("light-mode");
+    }
+
+    function toggleCasino() {
+      document.body.classList.remove("light-mode");
+      document.body.classList.toggle("casino-mode");
+    }
+
+    function goHome() {
+      window.location.href = "homescreen.html"; // or "index.html"
+    }
+  </script>
+
+</body>
+</html>
