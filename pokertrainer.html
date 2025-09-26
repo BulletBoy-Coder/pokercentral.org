@@ -1,88 +1,68 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Poker Trainer</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: black;
-      color: white;
-      text-align: center;
-      padding-top: 60px;
-    }
+  <head>
+    <title>Poker Trainer</title>
+    <style>
+      body {
+        margin: 0;
+        background: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
 
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-    }
+      h1 {
+        margin-top: 40px;
+        font-size: 2.5em;
+      }
 
-    p {
-      font-size: 1.2em;
-    }
+      .table-wrapper {
+        margin: 60px auto;
+        width: 700px;
+        height: 350px;
+        background: #006400;
+        border: 12px solid #8B0000;
+        border-radius: 50% / 30%;
+        box-shadow: 0 0 30px gold;
+        position: relative;
+      }
 
-    .back-button {
-      padding: 12px 24px;
-      font-size: 1.2em;
-      background: #222;
-      color: white;
-      border: 2px solid white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-top: 40px;
-    }
+      .table-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 85%;
+        height: 65%;
+        border: 2px dashed gold;
+        border-radius: 50% / 30%;
+      }
 
-    .back-button:hover {
-      background: white;
-      color: black;
-    }
+      .back-button {
+        margin-top: 40px;
+        padding: 12px 24px;
+        font-size: 1.2em;
+        background: #222;
+        color: white;
+        border: 2px solid white;
+        border-radius: 10px;
+        cursor: pointer;
+      }
 
-    /* Poker table styling */
-    .table-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 60px;
-    }
+      .back-button:hover {
+        background: white;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎯 Poker Trainer</h1>
+    <p>Train your poker skills here...</p>
 
-    .poker-table {
-      width: 600px;
-      height: 300px;
-      background: radial-gradient(circle at center, #006400 0%, #013220 100%);
-      border: 10px solid #8B0000;
-      border-radius: 50% / 30%;
-      box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
-      position: relative;
-    }
+    <div class="table-wrapper"></div>
 
-    .poker-table::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 60%;
-      border: 2px dashed gold;
-      border-radius: 50% / 30%;
-    }
-  </style>
-</head>
-<body>
-
-
-  <div class="table-container">
-    <div class="poker-table"></div>
-  </div>
-
-  <button class="back-button" onclick="goHome()">⬅️ Back to Home</button>
-
-  <script>
-    function goHome() {
-      window.location.href = "index.html"; // or "homescreen.html"
-    }
-  </script>
-
-</body>
+    <br>
+    <button class="back-button" onclick="location.href='index.html'">⬅️ Back to Home</button>
+  </body>
 </html>
