@@ -212,3 +212,41 @@
       if (flush) return 5;
       if (straight) return 4;
       if (Object[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/mind-rot/poker/tree/b1a5d5f4d6a851b25d85736b315319cca3503340/mainApp%2FcardClass.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/emilka1337/Azino777/tree/cb9529fe21dc6e7f5612221ac497dca7003b4c63/scripts%2Fcasino.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/HillaShx/btcmp/tree/b59374c4ba0467dba5feb64b4045b2e7b7ac33a6/00%20Assignment5_MemoryGame%2Fjs%2Fentities%2Fboard.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/WillPaulRyan/99/tree/cac3cf6057a434f6eaf179db957ee24e6a5cce26/server%2Futils%2Fgame.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")
+
+
+    <script>
+  const suits = ['♠','♥','♦','♣'];
+  const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+  let deck = [], stage = 0, flop = [], turn = '', river = '';
+
+  function shuffleDeck() {
+    deck = [];
+    for (let s of suits) {
+      for (let r of ranks) {
+        deck.push(r + s);
+      }
+    }
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+  }
+
+  function next() {
+    const boardDiv = document.getElementById("boardArea");
+    if (stage === 0) {
+      shuffleDeck();
+      flop = [deck.pop(), deck.pop(), deck.pop()];
+      boardDiv.innerHTML = flop.map(c => `<div class="card">${c}</div>`).join('');
+      stage++;
+    } else if (stage === 1) {
+      turn = deck.pop();
+      boardDiv.innerHTML += `<div class="card">${turn}</div>`;
+      stage++;
+    } else if (stage === 2) {
+      river = deck.pop();
+      boardDiv.innerHTML += `<div class="card">${river}</div>`;
+      stage++;
+    }
+  }
+</script>
