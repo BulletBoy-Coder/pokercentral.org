@@ -95,6 +95,25 @@
       color: #8B0000;
     }
 
+    .table-change {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1em;
+      padding: 8px 16px;
+      background: gold;
+      color: black;
+      border: 2px solid black;
+      border-radius: 8px;
+      box-shadow: 0 0 8px black;
+    }
+
+    .table-change:hover {
+      background: black;
+      color: gold;
+    }
+
     .showdown {
       margin-top: 20px;
       font-size: 1.2em;
@@ -115,6 +134,7 @@
     <div class="seat p5">Bot4<br><span id="Bot4Cards">🂠🂠</span></div>
 
     <div class="board" id="boardArea"></div>
+    <button class="button table-change" onclick="location.href='index.html'">🏠 Table Change</button>
   </div>
 
   <button class="button" onclick="deal()">🎲 Deal</button>
@@ -190,17 +210,4 @@
       if (straight && flush) return 8;
       if (Object.values(counts).includes(4)) return 7;
       if (Object.values(counts).includes(3) && Object.values(counts).includes(2)) return 6;
-      if (flush) return 5;
-      if (straight) return 4;
-      if (Object.values(counts).includes(3)) return 3;
-      const pairs = Object.values(counts).filter(c => c===2).length;
-      if (pairs === 2) return 2;
-      if (pairs === 1) return 1;
-      return 0;
-    }
-
-    function getWinner(players, board) {
-      const scores = {};
-      for (let p in players) {
-        scores[p] = scoreHand(players[p].concat(board));
-     [43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/mind-rot/poker/tree/b1a5d5f4d6a851b25d85736b315319cca3503340/mainApp%2FcardClass.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/emilka1337/Azino777/tree/cb9529fe21dc6e7f5612221ac497dca7003b4c63/scripts%2Fcasino.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/HillaShx/btcmp/tree/b59374c4ba0467dba5feb64b4045b2e7b7ac33a6/00%20Assignment5_MemoryGame%2Fjs%2Fentities%2Fboard.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/WillPaulRyan/99/tree/cac3cf6057a434f6eaf179db957ee24e6a5cce26/server%2Futils%2Fgame.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")
+      if (flush[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/mind-rot/poker/tree/b1a5d5f4d6a851b25d85736b315319cca3503340/mainApp%2FcardClass.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/emilka1337/Azino777/tree/cb9529fe21dc6e7f5612221ac497dca7003b4c63/scripts%2Fcasino.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/HillaShx/btcmp/tree/b59374c4ba0467dba5feb64b4045b2e7b7ac33a6/00%20Assignment5_MemoryGame%2Fjs%2Fentities%2Fboard.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "3")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/WillPaulRyan/99/tree/cac3cf6057a434f6eaf179db957ee24e6a5cce26/server%2Futils%2Fgame.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "4")
