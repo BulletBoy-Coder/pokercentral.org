@@ -3,98 +3,54 @@
 <head>
   <title>Poker Trainer</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 30px; }
-    .card { display: inline-block; border: 2px solid #ccc; padding: 10px; margin: 5px; cursor: pointer; border-radius: 6px; font-size: 1.2em; }
-    .card.selected { border-color: blue; background-color: #eef; }
-    .card.correct { border-color: green; background-color: #dfd; }
-    .card.incorrect { border-color: red; background-color: #fdd; }
-    .hand { margin: 10px; }
-    button { padding: 10px 20px; margin: 10px; font-size: 1em; }
-    #feedback { font-size: 1.2em; margin-top: 20px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      text-align: center;
+      padding-top: 60px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2em;
+    }
+
+    .back-button {
+      padding: 12px 24px;
+      font-size: 1.2em;
+      background: #222;
+      color: white;
+      border: 2px solid white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 40px;
+    }
+
+    .back-button:hover {
+      background: white;
+      color: black;
+    }
   </style>
 </head>
 <body>
-  <h1>Poker Trainer</h1>
-  <button onclick="nextStep()">Next</button>
-  <div id="gameArea"></div>
-  <button onclick="submitSelection()">Submit Selection</button>
-  <div id="feedback"></div>
+
+  <h1>🎯 Poker Trainer</h1>
+  <p>Train your poker skills here...</p>
+
+  <button class="back-button" onclick="goHome()">⬅️ Back to Home</button>
 
   <script>
-    const suits = ['♠', '♥', '♦', '♣'];
-    const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
-    let deck = [], step = 0;
-    let playerHand = [], botHands = [], tableCards = [];
-    let selectedCards = [];
-
-    function createDeck() {
-      deck = [];
-      for (let suit of suits) {
-        for (let rank of ranks) {
-          deck.push(rank + suit);
-        }
-      }
-      deck.sort(() => Math.random() - 0.5);
+    function goHome() {
+      window.location.href = "index.html"; // or "homescreen.html" if that's your main file
     }
+  </script>
 
-    function nextStep() {
-      const area = document.getElementById("gameArea");
-      area.innerHTML = "";
-      if (step === 0) {
-        createDeck();
-        playerHand = [deck.pop(), deck.pop()];
-        const numBots = Math.floor(Math.random() * 3) + 1;
-        botHands = Array.from({ length: numBots }, () => [deck.pop(), deck.pop()]);
-        tableCards = [deck.pop(), deck.pop(), deck.pop(), deck.pop(), deck.pop()];
-        area.innerHTML += `<div class="hand"><strong>Your Hand:</strong> ${renderCards(playerHand, true)}</div>`;
-        botHands.forEach((_, i) => {
-          area.innerHTML += `<div class="hand"><strong>Bot ${i + 1}:</strong> ${renderCards(["🂠", "🂠"], false)}</div>`;
-        });
-        step++;
-      } else if (step === 1) {
-        area.innerHTML = `<div class="hand"><strong>Flop:</strong> ${renderCards(tableCards.slice(0, 3), true)}</div>`;
-        step++;
-      } else if (step === 2) {
-        area.innerHTML = `<div class="hand"><strong>Turn:</strong> ${renderCards(tableCards.slice(0, 4), true)}</div>`;
-        step++;
-      } else if (step === 3) {
-        area.innerHTML = `<div class="hand"><strong>River:</strong> ${renderCards(tableCards, true)}</div>`;
-        step++;
-      } else if (step === 4) {
-        area.innerHTML = `<div class="hand"><strong>Table Cards:</strong> ${renderCards(tableCards, true, true)}</div>`;
-        area.innerHTML += `<div class="hand"><strong>Your Hand:</strong> ${renderCards(playerHand, true, true)}</div>`;
-        botHands.forEach((hand, i) => {
-          area.innerHTML += `<div class="hand"><strong>Bot ${i + 1}:</strong> ${renderCards(hand, true, true)}</div>`;
-        });
-        step++;
-      }
-    }
-
-    function renderCards(cards, faceUp, clickable = false) {
-      return cards.map(card => {
-        const id = "card-" + Math.random().toString(36).substr(2, 9);
-        return `<span class="card" id="${id}" onclick="${clickable ? `toggleCard('${id}', '${card}')` : ''}">${faceUp ? card : "🂠"}</span>`;
-      }).join("");
-    }
-
-    function toggleCard(id, card) {
-      const el = document.getElementById(id);
-      if (selectedCards.includes(card)) {
-        selectedCards = selectedCards.filter(c => c !== card);
-        el.classList.remove("selected");
-      } else {
-        selectedCards.push(card);
-        el.classList.add("selected");
-      }
-    }
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Poker Trainer</title>
-</head>
-<body>
-  <h1>Welcome to the Poker Trainer</h1>
-  <p>Trainer logic goes here...</p>
 </body>
 </html>
