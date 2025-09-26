@@ -6,7 +6,7 @@
     body {
       margin: 0;
       background: black;
-      color: white;
+      color: gold;
       font-family: Arial, sans-serif;
       text-align: center;
     }
@@ -14,16 +14,17 @@
     h1 {
       margin-top: 40px;
       font-size: 2.5em;
+      text-shadow: 0 0 10px gold;
     }
 
     .table-wrapper {
       margin: 40px auto;
       width: 700px;
       height: 350px;
-      background: #006400;
+      background: radial-gradient(circle at center, #006400 0%, #013220 100%);
       border: 12px solid #8B0000;
       border-radius: 50% / 30%;
-      box-shadow: 0 0 30px gold;
+      box-shadow: 0 0 40px gold;
       position: relative;
     }
 
@@ -46,22 +47,26 @@
       background: #222;
       border-radius: 50%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       font-size: 0.9em;
-      border: 2px solid white;
+      border: 2px solid gold;
+      color: gold;
+      box-shadow: 0 0 10px gold;
+    }
+
+    .highlight {
+      border: 3px solid lime;
+      box-shadow: 0 0 10px lime;
     }
 
     .dealer { top: -30px; left: 50%; transform: translateX(-50%); }
     .p1 { bottom: -30px; left: 50%; transform: translateX(-50%); }
     .p2 { top: 50%; left: -30px; transform: translateY(-50%); }
     .p3 { top: 50%; right: -30px; transform: translateY(-50%); }
-    .p4 { top: -30px; left: 50%; transform: translateX(-50%); }
-
-    .highlight {
-      border: 3px solid lime;
-      box-shadow: 0 0 10px lime;
-    }
+    .p4 { top: 30px; left: 120px; }
+    .p5 { top: 30px; right: 120px; }
 
     .label {
       position: absolute;
@@ -70,6 +75,7 @@
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 0.8em;
+      font-weight: bold;
     }
 
     .dealer-btn { bottom: 120px; left: 50%; transform: translateX(-50%); }
@@ -84,36 +90,43 @@
       display: inline-block;
       width: 140px;
       height: 180px;
-      background: #800000;
-      border: 4px solid white;
+      background: black;
+      border: 4px solid gold;
       border-radius: 12px;
       margin: 0 15px;
       font-size: 2.5em;
       line-height: 180px;
       color: white;
       font-weight: bold;
+      box-shadow: 0 0 10px gold;
     }
 
     .button {
       margin-top: 20px;
       padding: 12px 24px;
       font-size: 1.2em;
-      background: #222;
-      color: white;
-      border: 2px solid white;
+      background: #8B0000;
+      color: gold;
+      border: 2px solid gold;
       border-radius: 10px;
       cursor: pointer;
+      box-shadow: 0 0 10px gold;
     }
 
     .button:hover {
-      background: white;
-      color: black;
+      background: gold;
+      color: #8B0000;
     }
 
     .bot-alert {
       margin-top: 10px;
       color: red;
       font-weight: bold;
+    }
+
+    .board {
+      margin-top: 20px;
+      font-size: 1.5em;
     }
   </style>
 </head>
@@ -125,9 +138,10 @@
   <div class="table-wrapper">
     <div class="seat dealer">Dealer</div>
     <div class="seat p1 highlight">You</div>
-    <div class="seat p2">Bot 1</div>
-    <div class="seat p3">Bot 2</div>
-    <div class="seat p4">Bot 3</div>
+    <div class="seat p2">Bot 1<br>🂠🂠</div>
+    <div class="seat p3">Bot 2<br>🂠🂠</div>
+    <div class="seat p4">Bot 3<br>🂠🂠</div>
+    <div class="seat p5">Bot 4<br>🂠🂠</div>
 
     <div class="label dealer-btn">Dealer</div>
     <div class="label small-blind">SB</div>
@@ -139,35 +153,52 @@
     <div class="card" id="card2">🂠</div>
   </div>
 
+  <div class="board">
+    <div id="flop"></div>
+    <div id="turn"></div>
+    <div id="river"></div>
+  </div>
+
   <button class="button" onclick="dealCards()">🎲 Deal Cards</button>
   <button class="button" onclick="checkCards()">👁️ Check Cards</button>
-  <button class="button" onclick="location.href='pokergame.html'">➡️ Next</button>
+  <button class="button" onclick="nextStage()">➡️ Next</button>
 
   <div class="bot-alert" id="botAlert"></div>
 
   <script>
     const suits = ['♠', '♥', '♦', '♣'];
     const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    let deck = [];
     let hand = [];
+    let board = [];
+    let stage = 0;
 
-    function dealCards() {
-      const deck = [];
+    function shuffleDeck() {
+      deck = [];
       for (let suit of suits) {
         for (let rank of ranks) {
           deck.push(rank + suit);
         }
       }
-
-      // Shuffle deck
       for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
       }
+    }
 
-      hand = [deck[0], deck[1]];
+    function dealCards() {
+      shuffleDeck();
+      hand = [deck.pop(), deck.pop()];
+      board = [deck.pop(), deck.pop(), deck.pop(), deck.pop(), deck.pop()];
+      stage = 0;
+
       document.getElementById("card1").textContent = "🂠";
       document.getElementById("card2").textContent = "🂠";
       document.getElementById("botAlert").textContent = "";
+
+      document.getElementById("flop").textContent = "";
+      document.getElementById("turn").textContent = "";
+      document.getElementById("river").textContent = "";
     }
 
     function checkCards() {
@@ -188,6 +219,19 @@
         card2.textContent = "🂠";
         botAlert.textContent = "";
       }, 5000);
+    }
+
+    function nextStage() {
+      if (stage === 0) {
+        document.getElementById("flop").textContent = "Flop: " + board[0] + " " + board[1] + " " + board[2];
+        stage++;
+      } else if (stage === 1) {
+        document.getElementById("turn").textContent = "Turn: " + board[3];
+        stage++;
+      } else if (stage === 2) {
+        document.getElementById("river").textContent = "River: " + board[4];
+        stage++;
+      }
     }
   </script>
 
