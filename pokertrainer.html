@@ -28,18 +28,6 @@
       position: relative;
     }
 
-    .table-wrapper::after {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 85%;
-      height: 65%;
-      border: 2px dashed gold;
-      border-radius: 50% / 30%;
-    }
-
     .seat {
       position: absolute;
       width: 100px;
@@ -61,48 +49,37 @@
       box-shadow: 0 0 10px lime;
     }
 
-    .dealer { top: -30px; left: 50%; transform: translateX(-50%); }
-    .p1 { bottom: -30px; left: 50%; transform: translateX(-50%); }
-    .p2 { top: 50%; left: -30px; transform: translateY(-50%); }
-    .p3 { top: 50%; right: -30px; transform: translateY(-50%); }
-    .p4 { top: 30px; left: 120px; }
-    .p5 { top: 30px; right: 120px; }
+    .dealer { top: -50px; left: 50%; transform: translateX(-50%); }
+    .p1 { bottom: -50px; left: 50%; transform: translateX(-50%); }
+    .p2 { top: 50%; left: -50px; transform: translateY(-50%); }
+    .p3 { top: 50%; right: -50px; transform: translateY(-50%); }
+    .p4 { top: 20px; left: 80px; }
+    .p5 { top: 20px; right: 80px; }
 
-    .label {
+    .board {
       position: absolute;
-      background: gold;
-      color: black;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.8em;
-      font-weight: bold;
-    }
-
-    .dealer-btn { bottom: 120px; left: 50%; transform: translateX(-50%); }
-    .small-blind { bottom: 60px; left: 180px; }
-    .big-blind { bottom: 60px; right: 180px; }
-
-    .cards {
-      margin-top: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      gap: 10px;
     }
 
     .card {
-      display: inline-block;
-      width: 140px;
-      height: 180px;
+      width: 80px;
+      height: 120px;
       background: black;
-      border: 4px solid gold;
-      border-radius: 12px;
-      margin: 0 15px;
-      font-size: 2.5em;
-      line-height: 180px;
+      border: 3px solid gold;
+      border-radius: 10px;
+      font-size: 1.8em;
+      line-height: 120px;
       color: white;
       font-weight: bold;
-      box-shadow: 0 0 10px gold;
+      box-shadow: 0 0 8px gold;
     }
 
     .button {
-      margin-top: 20px;
+      margin: 20px 10px;
       padding: 12px 24px;
       font-size: 1.2em;
       background: #8B0000;
@@ -118,120 +95,108 @@
       color: #8B0000;
     }
 
-    .bot-alert {
-      margin-top: 10px;
-      color: red;
-      font-weight: bold;
-    }
-
-    .board {
+    .showdown {
       margin-top: 20px;
-      font-size: 1.5em;
+      font-size: 1.2em;
+      color: lime;
     }
   </style>
 </head>
 <body>
 
   <h1>🎯 Poker Trainer</h1>
-  <p>Train your poker skills here...</p>
 
   <div class="table-wrapper">
     <div class="seat dealer">Dealer</div>
-    <div class="seat p1 highlight">You</div>
-    <div class="seat p2">Bot 1<br>🂠🂠</div>
-    <div class="seat p3">Bot 2<br>🂠🂠</div>
-    <div class="seat p4">Bot 3<br>🂠🂠</div>
-    <div class="seat p5">Bot 4<br>🂠🂠</div>
+    <div class="seat p1 highlight">You<br><span id="youCards">🂠🂠</span></div>
+    <div class="seat p2">Bot 1<br><span id="bot1Cards">🂠🂠</span></div>
+    <div class="seat p3">Bot 2<br><span id="bot2Cards">🂠🂠</span></div>
+    <div class="seat p4">Bot 3<br><span id="bot3Cards">🂠🂠</span></div>
+    <div class="seat p5">Bot 4<br><span id="bot4Cards">🂠🂠</span></div>
 
-    <div class="label dealer-btn">Dealer</div>
-    <div class="label small-blind">SB</div>
-    <div class="label big-blind">BB</div>
+    <div class="board" id="boardArea"></div>
   </div>
 
-  <div class="cards">
-    <div class="card" id="card1">🂠</div>
-    <div class="card" id="card2">🂠</div>
-  </div>
+  <button class="button" onclick="deal()">🎲 Deal</button>
+  <button class="button" onclick="next()">➡️ Next</button>
 
-  <div class="board">
-    <div id="flop"></div>
-    <div id="turn"></div>
-    <div id="river"></div>
-  </div>
-
-  <button class="button" onclick="dealCards()">🎲 Deal Cards</button>
-  <button class="button" onclick="checkCards()">👁️ Check Cards</button>
-  <button class="button" onclick="nextStage()">➡️ Next</button>
-
-  <div class="bot-alert" id="botAlert"></div>
+  <div class="showdown" id="result"></div>
 
   <script>
-    const suits = ['♠', '♥', '♦', '♣'];
-    const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-    let deck = [];
-    let hand = [];
-    let board = [];
-    let stage = 0;
+    const suits = ['♠','♥','♦','♣'];
+    const ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+    let deck = [], board = [], players = {}, stage = 0;
 
-    function shuffleDeck() {
+    function shuffle() {
       deck = [];
-      for (let suit of suits) {
-        for (let rank of ranks) {
-          deck.push(rank + suit);
-        }
-      }
+      for (let s of suits) for (let r of ranks) deck.push(r + s);
       for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
       }
     }
 
-    function dealCards() {
-      shuffleDeck();
-      hand = [deck.pop(), deck.pop()];
+    function deal() {
+      shuffle();
       board = [deck.pop(), deck.pop(), deck.pop(), deck.pop(), deck.pop()];
+      players = {
+        You: [deck.pop(), deck.pop()],
+        Bot1: [deck.pop(), deck.pop()],
+        Bot2: [deck.pop(), deck.pop()],
+        Bot3: [deck.pop(), deck.pop()],
+        Bot4: [deck.pop(), deck.pop()]
+      };
       stage = 0;
-
-      document.getElementById("card1").textContent = "🂠";
-      document.getElementById("card2").textContent = "🂠";
-      document.getElementById("botAlert").textContent = "";
-
-      document.getElementById("flop").textContent = "";
-      document.getElementById("turn").textContent = "";
-      document.getElementById("river").textContent = "";
-    }
-
-    function checkCards() {
-      if (hand.length < 2) return;
-
-      const card1 = document.getElementById("card1");
-      const card2 = document.getElementById("card2");
-      const botAlert = document.getElementById("botAlert");
-
-      card1.textContent = hand[0];
-      card2.textContent = hand[1];
-
-      const botSaw = Math.random() < 0.01;
-      botAlert.textContent = botSaw ? "⚠️ Bot 1 saw your cards!" : "";
-
-      setTimeout(() => {
-        card1.textContent = "🂠";
-        card2.textContent = "🂠";
-        botAlert.textContent = "";
-      }, 5000);
-    }
-
-    function nextStage() {
-      if (stage === 0) {
-        document.getElementById("flop").textContent = "Flop: " + board[0] + " " + board[1] + " " + board[2];
-        stage++;
-      } else if (stage === 1) {
-        document.getElementById("turn").textContent = "Turn: " + board[3];
-        stage++;
-      } else if (stage === 2) {
-        document.getElementById("river").textContent = "River: " + board[4];
-        stage++;
+      document.getElementById("boardArea").innerHTML = '';
+      document.getElementById("result").textContent = '';
+      for (let p in players) {
+        document.getElementById(p.toLowerCase() + "Cards").textContent = "🂠🂠";
       }
+    }
+
+    function next() {
+      const boardDiv = document.getElementById("boardArea");
+      if (stage === 0) {
+        boardDiv.innerHTML = board.slice(0,3).map(c => `<div class="card">${c}</div>`).join('');
+      } else if (stage === 1) {
+        boardDiv.innerHTML += `<div class="card">${board[3]}</div>`;
+      } else if (stage === 2) {
+        boardDiv.innerHTML += `<div class="card">${board[4]}</div>`;
+      } else if (stage === 3) {
+        for (let p in players) {
+          document.getElementById(p.toLowerCase() + "Cards").textContent = players[p].join(' ');
+        }
+        const winner = getWinner(players, board);
+        document.getElementById("result").textContent = `🏆 ${winner} wins the hand!`;
+      }
+      stage++;
+    }
+
+    function scoreHand(cards) {
+      const counts = {}, suits = {}, values = cards.map(c => c.slice(0,-1));
+      for (let v of values) counts[v] = (counts[v] || 0) + 1;
+      for (let c of cards) suits[c.slice(-1)] = (suits[c.slice(-1)] || 0) + 1;
+      const vals = values.map(v => ranks.indexOf(v)).sort((a,b) => b-a);
+      const flush = Object.values(suits).some(c => c >= 5);
+      const straight = vals.filter((v,i,a) => i===0 || v!==a[i-1]).length >= 5 && vals[0]-vals[4]===4;
+      if (straight && flush) return 8;
+      if (Object.values(counts).includes(4)) return 7;
+      if (Object.values(counts).includes(3) && Object.values(counts).includes(2)) return 6;
+      if (flush) return 5;
+      if (straight) return 4;
+      if (Object.values(counts).includes(3)) return 3;
+      const pairs = Object.values(counts).filter(c => c===2).length;
+      if (pairs === 2) return 2;
+      if (pairs === 1) return 1;
+      return 0;
+    }
+
+    function getWinner(players, board) {
+      const scores = {};
+      for (let p in players) {
+        scores[p] = scoreHand(players[p].concat(board));
+      }
+      return Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
     }
   </script>
 
